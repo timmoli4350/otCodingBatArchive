@@ -1,0 +1,185 @@
+//Recursion-2 > groupSum -------------------------------------------------------
+public boolean groupSum(int start, int[] nums, int target) {
+  if (start >= nums.length) {
+    return (target == 0);
+  } //no numbers left? if target is 0 then fine
+  
+  if (groupSum(start + 1, nums, target - nums[start])) {
+    return true; //increment up throughout, minus nums start if they want us to start
+    //at a certain value provided place
+    //target keeps getting reduced by nums start
+  }
+  
+  if (groupSum(start + 1, nums, target)) {
+    return true; //if no specific starting place then just iterate through
+  }
+  
+  return false;
+}
+
+
+//Recursion-2 > groupSum6 -------------------------------------------------------
+public boolean groupSum6(int start, int[] nums, int target) {
+  if (start >= nums.length) {
+    return (target == 0);
+  }
+  
+  if (nums[start] == 6) {
+    if (groupSum6(start + 1, nums, target - 6)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  if (groupSum6(start+ 1, nums, target - nums[start])) {
+    return true;
+  }
+  
+  if (groupSum6(start+1, nums, target)) {
+    return true;
+  }
+  
+  return false;
+
+}
+
+
+//Recursion-2 > groupSum5 -------------------------------------------------------
+public boolean groupSum5(int start, int[] nums, int target) {
+  if (start >= nums.length) { //if we are out of indices
+    if (target == 0) { //check the target
+      return true;
+    
+    } else {
+      return false;
+    }
+  } else {
+    
+    if (nums[start]%5 == 0) { //if the start index (0 in the current array) is mult of 5
+      if ((start + 1) < nums.length && nums[start + 1] == 1) { //if it wont go over the amount of spots
+        return groupSum5(start + 2, nums, target - nums[start]); //iterate thru
+        //and remove the multiple of 5 each time from the target; catches all
+      }
+      else {
+        return groupSum5(start + 1, nums, target - nums[start]);
+      }
+    } else {
+      return groupSum5(start + 1, nums, target - nums[start]) || groupSum5(start + 1, nums, target);
+    }
+  }
+  
+  
+}
+
+
+//Recursion-2 > groupSumClump -------------------------------------------------------
+public boolean groupSumClump(int start, int[] nums, int target) {
+  
+  if (start >= nums.length) {
+    if (target == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  int sum = nums[start]; //first number
+  int index = start + 1;
+  
+  while (index < nums.length && nums[index] == nums[start]) { //while its clump of 
+    sum = sum + nums[index]; //same numbers, keep adding them in a while loop
+    index++;
+  }
+  
+  return groupSumClump(index, nums, target - sum) || groupSumClump(index, nums, target);
+  
+  //give the recursion options: to either include the clump we just found or to not
+  
+}
+
+//Recursion-2 > groupNoAdj -------------------------------------------------------
+public boolean groupNoAdj(int start, int[] nums, int target) {
+  if (start >= nums.length) {
+    return (target == 0);
+  }
+  
+  if (groupNoAdj(start + 2, nums, target - nums[start])) { //if provided
+    return true;
+  }
+  
+  if (groupNoAdj(start + 1, nums, target)) {
+    return true;
+  }
+  
+  else return false;
+
+}
+
+
+//Recursion-2 > splitArray -------------------------------------------------------
+public boolean splitArray(int[] nums) {
+  return splitHelper (0, 0, 0, nums); //start, sum1, sum2, array name
+}
+  
+  public boolean splitHelper(int start, int sum1, int sum2, int[] nums) {
+    if (start >= nums.length) {
+      return (sum1 == sum2);
+    }
+  
+  int num = nums[start]; //after checking to see if were done, set the number we're 
+  //sending into the possibility recursion to num
+  
+  //give it an option on whether to add it or not
+  return splitHelper(start + 1, sum1 + num, sum2, nums) || splitHelper(start + 1, sum1, sum2 + num, nums);
+}
+
+
+
+//Recursion-2 > splitOdd10 -------------------------------------------------------
+public boolean splitOdd10(int[] nums) {
+  return splitHelper (0, 0, 0, nums); //start, sum1, sum2, array name
+}
+  
+  public boolean splitHelper(int start, int sum1, int sum2, int[] nums) {
+    if (start >= nums.length) {
+      return (sum1 % 10 == 0 && sum2 % 2 == 1);
+      //change the end case: if its divisible by 10, other odd
+    }
+  
+  int num = nums[start]; //after checking to see if were done, set the number we're 
+  //sending into the possibility recursion to num
+  
+
+  return splitHelper(start + 1, sum1 + num, sum2, nums) || splitHelper(start + 1, sum1, sum2 + num, nums);
+}
+
+
+
+//Recursion-2 > split53 -------------------------------------------------------
+public boolean split53(int[] nums) {
+  return splitHelper (0, 0, 0, nums); //start, sum1, sum2, array name
+}
+  
+  public boolean splitHelper(int start, int sum1, int sum2, int[] nums) {
+    if (start >= nums.length) {
+      return (sum1 == sum2);
+    }
+  
+  int num = nums[start]; //after checking to see if were done, set the number we're 
+  //sending into the possibility recursion to num
+  
+  //give it an option on whether to add it or not
+// ----------------------------------- modification cases for 3/5 from split base
+  if (num % 5 == 0) {
+    return splitHelper(start + 1, sum1 + num, sum2, nums);
+  } else if (num % 3 == 0) {
+    return splitHelper(start + 1, sum1, sum2 + num, nums);
+  }
+// -------------------------------------------------
+  
+  return splitHelper(start + 1, sum1 + num, sum2, nums) || splitHelper(start + 1, sum1, sum2 + num, nums);
+}
+
+
+
